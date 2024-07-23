@@ -1,9 +1,16 @@
 let bagItems = [];
+onLoad();
 
-displayItemsOnHomePage();
+function onLoad(){
+  let bagItemsStr = localStorage.getItem('bagItems');
+  bagItems = bagItemsStr ? JSON.parse(bagItemsStr) : [];
+  displayItemsOnHomePage();
+  displayBagIcon();
+}
 
 function addToBag(itemId) {
   bagItems.push(itemId);
+  localStorage.setItem('bagItems', JSON.stringify(bagItems));
   displayBagIcon();
 }
 
@@ -19,6 +26,10 @@ function displayBagIcon() {
 
 function displayItemsOnHomePage() {
   let itemsContainerElement = document.querySelector(".items-container");
+
+  if(!itemsContainerElement) {
+    return;
+  }
   
   let innerHtml = '';
   items.forEach(item => {
